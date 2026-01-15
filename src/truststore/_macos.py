@@ -382,7 +382,13 @@ def _verify_peercerts_impl(
     cert_chain: list[bytes],
     server_hostname: str | None = None,
 ) -> None:
-    certs = None
+    """Verify the cert_chain from the server using macOS APIs."""
+
+    # If the peer didn't send any certificates then
+    # we can't do verification. Raise an error.
+    if not cert_chain:
+        raise ssl.SSLCertVerificationError("Peer sent no certificates to verify")
+
     policies = None
     trust = None
     try:
