@@ -456,7 +456,7 @@ def test_macos_10_7_import_error():
 
 
 @pytest.mark.parametrize("empty_value", [None, []])
-def test_verify_peercerts_no_cert_chain_raises(monkeypatch):
+def test_verify_peercerts_no_cert_chain_raises(monkeypatch, empty_value):
     # Simulate no certs returned from peer
     monkeypatch.setattr(api, "_get_unverified_chain_bytes", lambda sslobj: empty_value)
 
@@ -479,4 +479,3 @@ def test_verify_peercerts_no_cert_chain_raises(monkeypatch):
         api._verify_peercerts(sslobj, server_hostname="example.com")
 
     assert called is False
-    
